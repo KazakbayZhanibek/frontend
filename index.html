@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hack Demo · Guarantee AI</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top__inner">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <div class="brand__name">Guarantee AI · Demo</div>
+          <div class="brand__sub">Простой фронт для теста Laravel API</div>
+        </div>
+      </div>
+
+      <div class="cfg">
+        <label class="lbl">API URL</label>
+        <input id="baseUrl" class="input" value="http://localhost:8000/api" />
+        <button id="saveCfg" class="btn btn--soft">Сохранить</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="grid">
+      <!-- LEFT: actions -->
+      <div class="panel">
+        <div class="panel__title">Контекст</div>
+
+        <div class="row">
+          <div class="muted">application_id</div>
+          <div class="mono" id="appIdView">—</div>
+        </div>
+
+        <div class="row">
+          <div class="muted">status</div>
+          <div class="pill" id="statusView">—</div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="panel__title">1) Создать заявку</div>
+        <form id="createForm" class="form">
+          <label class="lbl">Заемщик (имя)</label>
+          <input class="input" name="borrower_name" placeholder="ТОО Ромашка" required />
+
+          <label class="lbl">БИН/ИИН</label>
+          <input class="input" name="borrower_bin_iin" placeholder="12 цифр" />
+
+          <label class="lbl">Кредитор (банк)</label>
+          <input class="input" name="creditor_name" placeholder="Банк ..." />
+
+          <div class="cols2">
+            <div>
+              <label class="lbl">Сумма кредита</label>
+              <input class="input" name="loan_amount" placeholder="100000000" />
+            </div>
+            <div>
+              <label class="lbl">Срок (мес)</label>
+              <input class="input" name="loan_term_months" placeholder="36" />
+            </div>
+          </div>
+
+          <div class="cols2">
+            <div>
+              <label class="lbl">Сумма финансирования</label>
+              <input class="input" name="financing_amount" placeholder="120000000" />
+            </div>
+            <div>
+              <label class="lbl">Запрошенная гарантия</label>
+              <input class="input" name="requested_guarantee_amount" placeholder="60000000" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" type="submit">Создать</button>
+        </form>
+
+        <div class="hr"></div>
+
+        <div class="panel__title">2) Загрузить документы</div>
+        <form id="uploadForm" class="form">
+          <label class="lbl">Тип документа</label>
+          <select class="input" name="type">
+            <option value="bank_package">Пакет банка</option>
+            <option value="financials">Фин. отчетность</option>
+            <option value="tax">Справка по налогам</option>
+            <option value="other">Другое</option>
+          </select>
+
+          <label class="lbl">Файл</label>
+          <input class="input" type="file" name="file" />
+
+          <button class="btn" type="submit">Upload</button>
+        </form>
+
+        <div class="hr"></div>
+
+        <div class="panel__title">3) Запустить шаги</div>
+        <div class="btnrow">
+          <button id="btnGet" class="btn btn--soft">GET /applications/{id}</button>
+          <button id="btnPrecheck" class="btn">POST /precheck</button>
+          <button id="btnGenerate" class="btn btn--primary">POST /generate</button>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="panel__title">4) Чек‑листы</div>
+        <form id="checksForm" class="form">
+          <label class="lbl">Секция</label>
+          <select class="input" name="section">
+            <option value="legal">legal</option>
+            <option value="security">security</option>
+          </select>
+
+          <label class="lbl">JSON items</label>
+          <textarea class="input area" name="items" rows="7">[
+  {"code":"tax_debt","title":"Налоговая задолженность","value":"no","comment":""},
+  {"code":"account_arrest","title":"Арест по счетам","value":"unknown","comment":""}
+]</textarea>
+
+          <button class="btn" type="submit">Сохранить checks</button>
+        </form>
+
+        <div class="hr"></div>
+
+        <div class="panel__title">5) Cash flow</div>
+        <form id="cashflowForm" class="form">
+          <label class="lbl">JSON rows</label>
+          <textarea class="input area" name="rows" rows="7">[
+  {"t":"2026-01","inflow":120,"outflow":80,"debt_service":25},
+  {"t":"2026-02","inflow":130,"outflow":85,"debt_service":25}
+]</textarea>
+
+          <button class="btn" type="submit">Сохранить cashflow</button>
+        </form>
+      </div>
+
+      <!-- RIGHT: output -->
+      <div class="panel panel--right">
+        <div class="panel__title">Ответы API</div>
+        <div class="muted">Здесь видно, что реально возвращает backend (удобно для дебага).</div>
+        <pre class="out" id="out">{}</pre>
+
+        <div class="hr"></div>
+
+        <div class="panel__title">Быстрая установка ID</div>
+        <div class="cols2">
+          <input id="appIdInput" class="input" placeholder="например: 1" />
+          <button id="setAppId" class="btn btn--soft">Установить</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
+s
